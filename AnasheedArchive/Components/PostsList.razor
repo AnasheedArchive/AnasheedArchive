@@ -2,7 +2,7 @@
 @using Markdig
 @using BlazorStatic
 @using BlazorStatic.Services
-@inject BlogService<FrontMatter> BlogService
+@inject BlogService<NasheedFrontMatter> BlogService
 @inject BlazorStaticService BlazorStaticService
 
 <ul class="divide-y   divide-gray-700">
@@ -43,10 +43,10 @@
 
 
 @code {
-    List<Post<FrontMatter>> posts = new();
+    List<Post<NasheedFrontMatter>> posts = new();
 
 
-    [Parameter] public List<Post<FrontMatter>>? Posts { get; set; }
+    [Parameter] public List<Post<NasheedFrontMatter>>? Posts { get; set; }
     protected override void OnInitialized()
     {
         posts = Posts != null ? Posts.OrderBy(x => x.FrontMatter.Published).ToList() : BlogService.BlogPosts;

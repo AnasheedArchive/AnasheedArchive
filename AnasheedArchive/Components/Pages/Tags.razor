@@ -4,7 +4,7 @@
 @using BlazorStatic
 @using BlazorStatic.Services
 @using System.Net
-@inject BlogService<FrontMatter> BlogService
+@inject BlogService<NasheedFrontMatter> BlogService
 
 @if (TagName == null)
 {
@@ -42,7 +42,7 @@
 @code {
     [Parameter] public string? TagName { get; set; }
 
-    List<Post<FrontMatter>>? posts;
+    List<Post<NasheedFrontMatter>>? posts;
 
     protected override void OnInitialized()
     {

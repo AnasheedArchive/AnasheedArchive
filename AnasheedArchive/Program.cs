@@ -2,7 +2,7 @@ using AnasheedArchive;
 using AnasheedArchive.Components;
 using BlazorStatic;
 using Markdig;
-
+using AnasheedArchive.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.UseStaticWebAssets();
@@ -18,7 +18,7 @@ builder.Services.AddBlazorStaticService(opt => {
 }
 );
 
-builder.Services.AddBlogService<FrontMatter>(opt => {
+builder.Services.AddBlogService<NasheedFrontMatter>(opt => {
     opt.BlogPageUrl = "blog";
     opt.TagsPageUrl = "tags";
     // opt.AfterBlogParsedAndAddedAction = () => ExtractTabs.Extract(opt.Posts);
@@ -42,7 +42,7 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>();
 
-app.UseBlog<FrontMatter>();
+app.UseBlog<NasheedFrontMatter>();
 app.UseBlazorStaticGenerator(shutdownApp: !app.Environment.IsDevelopment());
 
 app.Run();
@@ -53,6 +53,6 @@ public static class WebsiteKeys
     public const string BlogPostStorageAddress = "https://github.com/cabiste69/AnasheedArchive/tree/main/BlazorStaticWebsite/Content/Blog/";
 
     public const string GitHubRepo = "https://github.com/cabiste69/AnasheedArchive";
-    public const string BlogLead = "For the archival and translation of anasheed";
+    public const string SiteDescription = "For the archival and translation of anasheed";
 
 }
