@@ -12,3 +12,12 @@
     fill: currentColor;
     display: block !important;
 }
+
+.social-icon,
+.copyright-text {
+    color: var(--mocha-subtext0);
+}
+
+.social-icon:hover {
+    color: var(--mocha-blue);
+}
