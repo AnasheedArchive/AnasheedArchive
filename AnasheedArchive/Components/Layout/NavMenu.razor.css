@@ -1,0 +1,16 @@
+.bg-body-tertiary {
+    background-color: var(--mocha-mantle) !important;
+}
+
+.navbar-brand {
+    color: #cdd6f4 !important;
+}
+
+::deep .nav-link{
+    color: #cdd6f4 !important;
+}
+
+
+::deep .active {
+    color: var(--mocha-mauve) !important;
+}
