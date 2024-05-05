@@ -1,3 +1,19 @@
+:root {
+    /* catppuccin */
+    --mocha-overlay2: #9399b2;
+    --mocha-base: #1e1e2e;
+    --mocha-mantle: #181825;
+    --mocha-crust: #11111b;
+    --mocha-text: #cdd6f4;
+    --mocha-blue: #89b4fa;
+    --mocha-mauve: #cba6f7;
+    --mocha-Lavender: #b4befe;
+    --mocha-subtext1: #bac2de;
+    --mocha-subtext0: #a6adc8;
+    /*  */
+    --selection-bg-color: var(--mocha-overlay2);
+}
+
 /* h1:focus {
     outline: none;
 }
@@ -27,3 +43,45 @@
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 } */
+
+body {
+    background-color: var(--mocha-crust);
+    color: var(--mocha-text) !important;
+}
+
+/* Code for Firefox */
+::-moz-selection {
+    color: white;
+    background: var(--selection-bg-color);
+}
+
+::selection {
+    color: white;
+    background: var(--selection-bg-color);
+}
+
+a {
+    text-decoration: none;
+    /* color: red; */
+    /* text-decoration-color: red; */
+}
+
+aside {
+    /* width: 10%; */
+    float: right;
+    border: 1px solid var(--mocha-Lavender);
+}
+
+.card {
+    background-color: var(--mocha-mantle);
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.card-text {
+    color: var(--mocha-subtext0);
+}
+
+dt, dd {
+    margin-bottom: 1rem;
+}

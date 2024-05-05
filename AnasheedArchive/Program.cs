@@ -13,7 +13,7 @@ var pipeline = new MarkdownPipelineBuilder().Build();
 // Add services to the container.
 builder.Services.AddRazorComponents();
 builder.Services.AddBlazorStaticService(opt => {
-    opt.IgnoredPathsOnContentCopy.Add("app.css");//pre-build version for tailwind
+    // opt.IgnoredPathsOnContentCopy.Add("app.css");//pre-build version for tailwind
     // opt.MarkdownPipeline = pipeline;
 }
 );
