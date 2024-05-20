@@ -5,51 +5,39 @@
 @inject BlogService<NasheedFrontMatter> BlogService
 @inject BlazorStaticService BlazorStaticService
 
-<ul class="divide-y   divide-gray-700">
-    @foreach (var post in posts)
+
+@((MarkupString)columnOpen)
+@foreach (var post in posts.Where(x => x.FrontMatter.IsDraft is false))
+{
+    @if (post.FrontMatter.Producer != currentProducer)
     {
-        <li class="py-12">
-            <article>
-                <div class="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
-                    <div class="space-y-5 xl:col-span-3">
-                        <div class="space-y-6">
-                            <div>
-                                <h2 class="text-2xl font-bold leading-8 tracking-tight">
-                                    <a class="text-gray-100"
-                                        href="@BlogService.Options.BlogPageUrl/@(post.FileNameNoExtension)">@post.FrontMatter.Title</a>
-                                </h2>
-                                <div class="flex flex-wrap">
-                                    @foreach (var tag in post.FrontMatter.Tags)
-                                    {
-                                        <a class="text-primary-500 hover:text-primary-400 mr-3 text-sm font-medium uppercase"
-                                            href="@BlogService.Options.TagsPageUrl/@tag">@tag</a>
-                                    }
-                                </div>
-                            </div>
-                            <div class="prose max-w-none text-gray-400">
-                                @((MarkupString)post.FrontMatter.Lead)
-                            </div>
-                        </div>
-                        <div class="text-base font-medium leading-6">
-                            <a class="text-primary-500 hover:text-primary-400" aria-label='Read "@(post.FrontMatter.Lead)"'
-                                href="@BlogService.Options.BlogPageUrl/@(post.FileNameNoExtension)">Read more →</a>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </li>
+        currentProducer = post.FrontMatter.Producer;
+        @((MarkupString)columnClose)
+        @((MarkupString)columnOpen)
     }
-</ul>
+    <div class="col pb-2">
+        <h4>
+            <a href="@PostUrl(post.FileNameNoExtension)">- @post.FrontMatter.Title</a>
+        </h4>
+    </div>
+}
+@((MarkupString)columnClose)
 
 
 @code {
     List<Post<NasheedFrontMatter>> posts = new();
-
-
     [Parameter] public List<Post<NasheedFrontMatter>>? Posts { get; set; }
+    string? currentProducer;
+
+    string columnOpen => $"<div class='container'><h2 class='pt-5 pb-2 border-bottom'>{currentProducer}</h2><div class='text-center'><div class='row row-cols-1 row-cols-sm-2 row-cols-md-4'>";
+    string columnClose = "</div></div></div>";
+    string PostUrl(string name) => BlogService.Options.BlogPageUrl + "/"+ name;
+
     protected override void OnInitialized()
     {
-        posts = Posts != null ? Posts.OrderBy(x => x.FrontMatter.Published).ToList() : BlogService.BlogPosts;
+        var unOrderedPosts = Posts is not null ? Posts : BlogService.BlogPosts;
+        posts = unOrderedPosts.OrderBy(x => x.FrontMatter.Producer).ThenBy(x => x.FrontMatter.Title).ToList();
+        currentProducer = posts.First().FrontMatter.Producer;
         base.OnInitialized();
     }
 }
