@@ -1,0 +1,171 @@
+/*! catppuccin css variables */
+/*! https://unpkg.com/@catppuccin/palette@1.2.0/css/catppuccin.css */
+
+
+/** latte theme */
+:root,
+[data-bs-theme=light] {
+
+    /* latte theme variables */
+    --rosewater: #dc8a78;
+    --rosewater-rgb: 220, 138, 120;
+
+    --flamingo: #dd7878;
+    --flamingo-rgb: 221, 120, 120;
+
+    --pink: #ea76cb;
+    --pink-rgb: 234, 118, 203;
+
+    --mauve: #8839ef;
+    --mauve-rgb: 136, 57, 239;
+
+    --red: #d20f39;
+    --red-rgb: 210, 15, 57;
+
+    --maroon: #e64553;
+    --maroon-rgb: 230, 69, 83;
+
+    --peach: #fe640b;
+    --peach-rgb: 254, 100, 11;
+
+    --yellow: #df8e1d;
+    --yellow-rgb: 223, 142, 29;
+
+    --green: #40a02b;
+    --green-rgb: 64, 160, 43;
+
+    --teal: #179299;
+    --teal-rgb: 23, 146, 153;
+
+    --sky: #04a5e5;
+    --sky-rgb: 4, 165, 229;
+
+    --sapphire: #209fb5;
+    --sapphire-rgb: 32, 159, 181;
+
+    --blue: #1e66f5;
+    --blue-rgb: 30, 102, 245;
+
+    --lavender: #7287fd;
+    --lavender-rgb: 114, 135, 253;
+
+    --text: #4c4f69;
+    --text-rgb: 76, 79, 105;
+
+    --subtext1: #5c5f77;
+    --subtext1-rgb: 92, 95, 119;
+
+    --subtext0: #6c6f85;
+    --subtext0-rgb: 108, 111, 133;
+
+    --overlay2: #7c7f93;
+    --overlay2-rgb: 124, 127, 147;
+
+    --overlay1: #8c8fa1;
+    --overlay1-rgb: 140, 143, 161;
+
+    --overlay0: #9ca0b0;
+    --overlay0-rgb: 156, 160, 176;
+
+    --surface2: #acb0be;
+    --surface2-rgb: 172, 176, 190;
+
+    --surface1: #bcc0cc;
+    --surface1-rgb: 188, 192, 204;
+
+    --surface0: #ccd0da;
+    --surface0-rgb: 204, 208, 218;
+
+    --base: #eff1f5;
+    --base-rgb: 239, 241, 245;
+
+    --mantle: #e6e9ef;
+    --mantle-rgb: 230, 233, 239;
+
+    --crust: #dce0e8;
+    --crust-rgb: 220, 224, 232;
+}
+
+/** catppucin mocha theme */
+[data-bs-theme=dark] {
+    --rosewater: #f5e0dc;
+    --rosewater-rgb: 245, 224, 220;
+
+    --flamingo: #f2cdcd;
+    --flamingo-rgb: 242, 205, 205;
+
+    --pink: #f5c2e7;
+    --pink-rgb: 245, 194, 231;
+
+    --mauve: #cba6f7;
+    --mauve-rgb: 203, 166, 247;
+
+    --red: #f38ba8;
+    --red-rgb: 243, 139, 168;
+
+    --maroon: #eba0ac;
+    --maroon-rgb: 235, 160, 172;
+
+    --peach: #fab387;
+    --peach-rgb: 250, 179, 135;
+
+    --yellow: #f9e2af;
+    --yellow-rgb: 249, 226, 175;
+
+    --green: #a6e3a1;
+    --green-rgb: 166, 227, 161;
+
+    --teal: #94e2d5;
+    --teal-rgb: 148, 226, 213;
+
+    --sky: #89dceb;
+    --sky-rgb: 137, 220, 235;
+
+    --sapphire: #74c7ec;
+    --sapphire-rgb: 116, 199, 236;
+
+    --blue: #89b4fa;
+    --blue-rgb: 137, 180, 250;
+
+    --lavender: #b4befe;
+    --lavender-rgb: 180, 190, 254;
+
+    --text: #cdd6f4;
+    --text-rgb: 205, 214, 244;
+
+    --subtext1: #bac2de;
+    --subtext1-rgb: 186, 194, 222;
+
+    --subtext0: #a6adc8;
+    --subtext0-rgb: 166, 173, 200;
+
+    --overlay2: #9399b2;
+    --overlay2-rgb: 147, 153, 178;
+
+    --overlay1: #7f849c;
+    --overlay1-rgb: 127, 132, 156;
+
+    --overlay0: #6c7086;
+    --overlay0-rgb: 108, 112, 134;
+
+    --surface2: #585b70;
+    --surface2-rgb: 88, 91, 112;
+
+    --surface1: #45475a;
+    --surface1-rgb: 69, 71, 90;
+
+    --surface0: #313244;
+    --surface0-rgb: 49, 50, 68;
+
+    --base: #1e1e2e;
+    --base-rgb: 30, 30, 46;
+
+    --mantle: #181825;
+    --mantle-rgb: 24, 24, 37;
+
+    --crust: #11111b;
+    --crust-rgb: 17, 17, 27;
+
+    /* bootstrap variables */
+    color-scheme: dark;
+}

@@ -1,16 +1,22 @@
-.bg-body-tertiary {
-    background-color: var(--mocha-mantle) !important;
+nav {
+    background-color: var(--crust);
 }
 
 .navbar-brand {
-    color: #cdd6f4 !important;
+    color: var(--text);
 }
 
+/*
 ::deep .nav-link{
-    color: #cdd6f4 !important;
+    color: var(--text) !important;
 }
 
+*/
+::deep .nav-link{
+    color: var(--subtext0);
+}
 
 ::deep .active {
-    color: var(--mocha-mauve) !important;
+    /* rosewater, pink, red, mauve */
+    color: var(--mauve) !important;
 }

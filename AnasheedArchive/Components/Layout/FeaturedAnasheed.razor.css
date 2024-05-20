@@ -1,0 +1,28 @@
+.card {
+    background-color: var(--base);
+    padding-right: 0;
+    padding-left: 0;
+    color: var(--lavender);
+}
+
+.card:has(a:hover) {
+    /* background-color: var(--surface0); */
+    filter: brightness(105%);
+    color: var(--blue);
+}
+
+.card-link {
+    color: var(--lavender);
+}
+
+.card-text {
+    color: var(--subtext0);
+}
+
+.card-link:hover .card-title {
+    color: var(--sky);
+}
+
+.card-link:hover .card-text {
+    color: var(--blue);
+}
