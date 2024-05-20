@@ -1,0 +1,41 @@
+@using System.Globalization
+@using BlazorStatic
+@using BlazorStatic.Services
+@inject BlogService<NasheedFrontMatter> BlogService
+
+<div class="b-example-divider"></div>
+
+<div class="container px-4 py-5" id="hanging-icons">
+  <h2 class="pb-2 border-bottom text-center">Featured Anasheed</h2>
+  <div class="row justify-content-center">
+
+    @foreach (var nasheed in posts)
+    {
+      <div class="card m-3" style="width: 15rem;">
+          <img src="@nasheed.FrontMatter.Image" class="img-fluid rounded-top">
+          <div class="card-body">
+            <h5 class="card-title">@nasheed.FrontMatter.Title</h5>
+            <p class="card-text">@nasheed.FrontMatter.Lead</p>
+        <a class="card-link stretched-link" href="@BlogService.Options.BlogPageUrl/@(nasheed.FileNameNoExtension)">
+        </a>
+          </div>
+      </div>
+    }
+
+  </div>
+</div>
+
+
+@code {
+  List<Post<NasheedFrontMatter>> posts = new();
+
+  protected override void OnInitialized()
+  {
+    if (BlogService.BlogPosts is null)
+    {
+      throw new NullReferenceException("no posts?");
+    }
+    posts = BlogService.BlogPosts.Where(x => x.FrontMatter.Featured == true).ToList();
+    base.OnInitialized();
+  }
+}
