@@ -1,0 +1,3 @@
+[submodule "AnasheedArchive/Content/Anasheed"]
+	path = AnasheedArchive/Content/Anasheed
+	url = https://github.com/AnasheedArchive/Anasheed.git
