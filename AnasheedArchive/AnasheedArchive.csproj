@@ -14,5 +14,7 @@
     <None Update="Content/**/*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Watch Include="Content/**/*" />
   </ItemGroup>
+
 </Project>
