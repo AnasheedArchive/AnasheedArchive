@@ -3,26 +3,34 @@ using AnasheedArchive.Components;
 using BlazorStatic;
 using Markdig;
 using AnasheedArchive.Models;
+using AnasheedArchive.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.UseStaticWebAssets();
 
 // Configure the pipeline with all advanced extensions active
-var pipeline = new MarkdownPipelineBuilder().Build();
+var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions()
+        .UseYamlFrontMatter()
+        .UseCitations()
+        .UseBootstrap()
+        .UseBootstrapExtended()
+        .Build();
 
 // Add services to the container.
 builder.Services.AddRazorComponents();
-builder.Services.AddBlazorStaticService(opt => {
-    // opt.IgnoredPathsOnContentCopy.Add("app.css");//pre-build version for tailwind
-    // opt.MarkdownPipeline = pipeline;
+builder.Services.AddBlazorStaticService(opt =>
+{
+    opt.MarkdownPipeline = pipeline;
 }
 );
 
-builder.Services.AddBlogService<NasheedFrontMatter>(opt => {
-    opt.BlogPageUrl = "blog";
+builder.Services.AddBlogService<NasheedFrontMatter>(opt =>
+{
+    opt.BlogPageUrl = PagesNames.Anasheed;
     opt.TagsPageUrl = "tags";
     // opt.AfterBlogParsedAndAddedAction = () => ExtractTabs.Extract(opt.Posts);
     opt.BeforeBlogParsedFunc = ExtractTabs.ModifyFiles;
+    opt.ContentPath = Path.Combine("Content", "Anasheed");
 });
 
 var app = builder.Build();
