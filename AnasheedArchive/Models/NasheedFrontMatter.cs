@@ -1,52 +1,30 @@
-using BlazorStatic;
+using System.Globalization;
 
 namespace AnasheedArchive.Models;
 
 /// <summary>
-/// Showcase of a front matter class. If you have a different front matter format, implement your own class.
+/// Front Matter class for anasheed.
 /// </summary>
-public class NasheedFrontMatter:IFrontMatter
+public class NasheedFrontMatter : BaseFrontMatterModel
 {
     /// <summary>
-    /// Title of the blog post.
+    /// Translated title of the nasheed.
     /// </summary>
-    public string Title { get; set; }
+    public string TitleEn { get; set; } = "";
     /// <summary>
-    /// Lead or description of the blog post.
+    /// Duration of the nasheed in seconds.
     /// </summary>
-    public string Lead { get; set; } = "";
-    /// <summary>
-    /// Date of publishing the blog post.
-    /// </summary>
-    public DateTime Published { get; set; } = DateTime.Now;
-    /// <inheritdoc />
-    public List<string> Tags { get; set; } = [];
-
-    /// <inheritdoc />
-    public bool IsDraft { get; set; }
+    public int Duration { get; set; } = 0;
 
     /// <summary>
-    /// Authors of the blog post.
+    /// The producer of the nasheed.
     /// </summary>
-    public List<Author> Authors { get; set; } = [];
-    public bool Featured { get; set; }
+    public string Producer { get; set; } = "";
+    /// <summary>
+    /// Is the nasheed featured on the home page?
+    /// </summary>
+    /// <value></value>
+    public bool Featured { get; set; } = false;
+
+    public string GetFormattedDurration() => TimeSpan.FromSeconds(Duration).ToString("m':'ss' min'");
 }
-/// <summary>
-/// Author of a blog post.
-/// </summary>
-public class Author
-{
-    /// <summary>
-    /// Name of the author.
-    /// </summary>
-    public string? Name { get; set; }
-    /// <summary>
-    /// GitHub username of the author.
-    /// </summary>
-    public string? GitHubUserName { get; set; }
-    /// <summary>
-    /// Twitter username of the author.
-    /// </summary>
-    public string? TwitterUserName { get; set; }
-}
-
