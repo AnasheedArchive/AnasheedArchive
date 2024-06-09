@@ -1,3 +1,6 @@
 [submodule "AnasheedArchive/Content/Anasheed"]
 	path = AnasheedArchive/Content/Anasheed
 	url = https://github.com/AnasheedArchive/Anasheed.git
+[submodule "BlazorStatic"]
+	path = BlazorStatic
+	url = git@github.com-cab:AnasheedArchive/BlazorStatic.git
