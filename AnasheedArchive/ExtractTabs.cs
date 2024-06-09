@@ -1,14 +1,15 @@
-using BlazorStatic;
+using System.Reflection;
 
 namespace AnasheedArchive;
 
 class ExtractTabs
 {
-    public static string[] ModifyFiles(string[] filePaths)
+    public static string[] ModifyFiles(string contentPath, string[]? filePaths = null)
     {
+        filePaths ??= GetFilesPath(contentPath);
         for (int i = 0; i < filePaths.Length; i++)
         {
-            List<string>? editedFile = ConvertLyricsToTabs(File.ReadAllLines(filePaths[i]).ToList());
+            List<string>? editedFile = ConvertLyricsToTabs(File.ReadAllLines(filePaths[i]).ToList(), filePaths[i]);
             if (editedFile is not null)
             {
                 File.WriteAllLines(filePaths[i], editedFile);
@@ -17,7 +18,7 @@ class ExtractTabs
         return filePaths;
     }
 
-    private static List<string>? ConvertLyricsToTabs(List<string> content)
+    private static List<string>? ConvertLyricsToTabs(List<string> content, string fileName)
     {
         string identifier = "@@";
 
@@ -26,15 +27,18 @@ class ExtractTabs
 
         Dictionary<string, List<string>> lyrics = new();
         string lastLanguage = "";
+
         for (int i = translationPos; i <= content.Count; i++)
         {
+
+            if (i > content.Count - 1) break;
             if (content[i].Trim().Length == 0) continue;
             if (i == content.Count || content[i].StartsWith('#')) break;
 
             if (content[i].StartsWith(identifier))
             {
                 lastLanguage = content[i].Substring(identifier.Length + 1);
-                lyrics[lastLanguage] = new() { "" };
+                lyrics[lastLanguage] = [""];
                 content.RemoveAt(i);
                 i--;
                 continue;
@@ -124,7 +128,8 @@ class ExtractTabs
     private static void AddBootstrapColumns(ref List<string> content, ref Dictionary<string, List<string>> lyrics, int startPos)
     {
         string container = "<div class='container'>";
-        string row = "<div class='text-center row row-cols-1 row-cols-sm-2'>";
+        string row = "<div class='text-center row row-cols-1 xx'>";
+        row = row.Replace("xx", $"row-cols-sm-{lyrics.Count}"); // shittiest code ever :D
         string column = "<div class='col pb-5'>";
 
         foreach (var translation in lyrics)
@@ -143,7 +148,9 @@ class ExtractTabs
                 }
                 nestedRow += column + verse2 + "</div>";
             }
-            row += nestedRow + "</div>" ;
+
+            row += nestedRow + "</div>";
+
             if (translation.Key != lyrics.LastOrDefault().Key)
             {
                 // todo: make the ruler hidden on mobile view
@@ -162,5 +169,16 @@ class ExtractTabs
             sum += $"<th scope='col' class='pb-4'>{key}</th>";
         }
         return sum;
+    }
+
+    private static string[] GetFilesPath(string contentPath)
+    {
+        EnumerationOptions x = new()
+        {
+            IgnoreInaccessible = true,
+            RecurseSubdirectories = true,
+        };
+        string execFolder = Directory.GetParent(Assembly.GetEntryAssembly()!.Location)!.FullName;
+        return Directory.GetFiles(Path.Combine(execFolder, contentPath), "*.md", x);
     }
 }
