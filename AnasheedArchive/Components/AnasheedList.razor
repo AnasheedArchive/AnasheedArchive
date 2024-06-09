@@ -1,0 +1,52 @@
+@using System.Globalization
+@using Markdig
+@using BlazorStatic
+@using BlazorStatic.Services
+@inject BlogService<NasheedFrontMatter> BlogService
+@inject BlazorStaticService BlazorStaticService
+
+<div class='container'>
+@((MarkupString)columnOpen)
+@foreach (var post in posts)
+{
+    @if (post.FrontMatter.Producer.ToTitle() != currentProducer)
+    {
+        currentProducer = post.FrontMatter.Producer.ToTitle();
+        @((MarkupString)columnClose)
+        @((MarkupString)columnOpen)
+    }
+    <div class="col mt-3">
+        @* <h4>
+            <a href="@PostUrl(post.FileNameNoExtension)">- @post.FrontMatter.Title</a>
+        </h4> *@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">@post.FrontMatter.Title</h5>
+    <a href="@PostUrl(post.Url)" class="stretched-link"></a>
+  </div>
+</div>
+    </div>
+}
+@((MarkupString)columnClose)
+</div>
+
+@code {
+    List<Post<NasheedFrontMatter>> posts = new();
+    [Parameter] public List<Post<NasheedFrontMatter>>? Posts { get; set; }
+    string? currentProducer;
+
+    string columnOpen => $"<h2 class='pt-5 pb-2 border-bottom'>{currentProducer}</h2><div class='text-center'><div class='row row-cols-1 row-cols-sm-2 row-cols-md-4'>";
+    string columnClose = "</div></div>";
+    string PostUrl(string name) {
+        @* string sanitizedName = name.IndexOf('/') > 0 ? name.Substring(name.IndexOf('/')+1): name; *@
+        return BlogService.Options.BlogPageUrl + "/"+ name;
+    } 
+
+    protected override void OnInitialized()
+    {
+        var unOrderedPosts = Posts is not null ? Posts : BlogService.BlogPosts;
+        posts = unOrderedPosts.Where(x => x.FrontMatter.IsDraft is false && x.FrontMatter.Title.Length > 0).OrderBy(x => x.FrontMatter.Producer).ThenBy(x => x.FrontMatter.Title).ToList();
+        currentProducer = posts.First().FrontMatter.Producer.ToTitle();
+        base.OnInitialized();
+    }
+}
