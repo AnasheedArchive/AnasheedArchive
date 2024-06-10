@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg">
   <div class="container-fluid">
-    <a class="navbar-brand" href="">@WebsiteKeys.Name</a>
+    <a class="navbar-brand site-name" href="">@WebsiteKeys.Name</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -9,19 +9,19 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <NavLink ActiveClass="active" class="nav-link" href="@(Models.PagesNames.Anasheed)">
-            @ToTitle(Models.PagesNames.Anasheed)</NavLink>
+            @Models.PagesNames.Anasheed.ToTitle()</NavLink>
         </li>
         <li class="nav-item">
           <NavLink ActiveClass="active" class="nav-link" href="@(Models.PagesNames.Producers)">
-            @ToTitle(Models.PagesNames.Producers)</NavLink>
+            @Models.PagesNames.Producers.ToTitle()</NavLink>
         </li>
         <li class="nav-item">
           <NavLink ActiveClass="active" class="nav-link" href="@(Models.PagesNames.News)">
-            @ToTitle(Models.PagesNames.News)</NavLink>
+            @Models.PagesNames.News.ToTitle()</NavLink>
         </li>
         <li class="nav-item">
           <NavLink ActiveClass="active" class="nav-link" href="@(Models.PagesNames.About)">
-            @ToTitle(Models.PagesNames.About)</NavLink>
+            @Models.PagesNames.About.ToTitle()</NavLink>
         </li>
         @* <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -42,15 +42,3 @@
     </div>
   </div>
 </nav>
-
-@code {
-  private string ToTitle(string s)
-  {
-    if (s is null)
-      return string.Empty;
-
-    char[] a = s.ToLower().ToCharArray();
-    a[0] = char.ToUpper(a[0]);
-    return new string(a);
-  }
-}
