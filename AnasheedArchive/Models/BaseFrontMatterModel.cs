@@ -12,18 +12,10 @@ public class BaseFrontMatterModel : IFrontMatter
     /// </summary>
     public string Title { get; set; } = "";
     /// <summary>
-    /// Lead or description of the blog post.
-    /// </summary>
-    public string Lead { get; set; } = "";
-    /// <summary>
-    /// Date of publishing the blog post.
-    /// </summary>
-    public DateOnly Published { get; set; } = DateOnly.FromDateTime(DateTime.Now);
-    /// <summary>
     /// the cover image of the article
     /// </summary>
     /// <value></value>
-    public string Image { get; set; } = "";
+    public string? Image { get; set; }
     /// <summary>
     /// the contributors to the article
     /// </summary>
