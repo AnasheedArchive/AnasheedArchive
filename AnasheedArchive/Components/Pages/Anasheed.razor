@@ -1,6 +1,6 @@
 @* @attribute [Route(Models.PagesNames.Anasheed)] *@
 @page "/anasheed"
-@page "/anasheed/{fileName}"
+@page "/anasheed/{*fileName}"
 @using System.Globalization
 @using BlazorStatic
 @using BlazorStatic.Services
@@ -13,7 +13,7 @@
     <div class="px-4 py-3 my-3 text-center">
         <h2 class="display-5 fw-bold">List of Anasheed</h2>
     </div>
-    <PostsList />
+    <AnasheedList />
     return;
 }
 
@@ -21,7 +21,7 @@
 @if (nasheed == null)
 {
     <header class="my-5 py-3 text-center">
-        <h1>Post not found @(":<")</h1>
+        <h1>Nasheed not found @(":<")</h1>
     </header>
     return;
 }
@@ -35,47 +35,48 @@
     <div class="clearfix">
         <aside class="mb-5 order-first col-12 col-xl-3 col-lg-4 col-md-5" style="padding: 0px;">
             <div class="card">
-                <img src="@nasheed.FrontMatter.Image" class="img-fluid rounded-top">
-                <div class="card-header text-center" style="/*color: white; background-color: var(--mocha-base)*/">
+                @{
+                    string img = $"Content/Anasheed/media/{nasheed.FrontMatter.Producer.ToLower()}.jpg";
+                    if (!File.Exists(img))
+                    {
+                        img = $"Content/Anasheed/media/unknown-producer.png";
+                    }
+                    <img src="@img" class="img-fluid rounded-top">
+                }
+                <div class="card-header text-center">
                     Nasheed Information</div>
                 <div class="card-body">
-                    <dl class="row justify-content-center px-3" style="/*color: white;*/">
-                            <dt class="col-5">
-                                Title
-                            </dt>
-                            <dd class="col-7">
-                                @nasheed.FrontMatter.Title
-                            </dd>
-                            <dt class="col-5">
-                                Title En.
-                            </dt>
-                            <dd class="col-7">
-                                @nasheed.FrontMatter.TitleEn
-                            </dd>
-                            <dt class="col-5">
-                                Duration
-                            </dt>
-                            <dd class="col-7">
-                                @nasheed.FrontMatter.GetFormattedDurration()
-                            </dd>
-                            <dt class="col-5">
-                                Producer
-                            </dt>
-                            <dd class="col-7">
-                                @nasheed.FrontMatter.Producer
-                            </dd>
-                            <dt class="col-5">
-                                Added
-                            </dt>
-                            <dd class="col-7">
-                                @nasheed.FrontMatter.Published
-                            </dd>
-                        </dl>
+                    <dl class="row justify-content-center px-3">
+                        <dt class="col-5">
+                            Title
+                        </dt>
+                        <dd class="col-7">
+                            @nasheed.FrontMatter.Title
+                        </dd>
+                        <dt class="col-5">
+                            Title En.
+                        </dt>
+                        <dd class="col-7">
+                            @nasheed.FrontMatter.TitleEn
+                        </dd>
+                        <dt class="col-5">
+                            Duration
+                        </dt>
+                        <dd class="col-7">
+                            @nasheed.FrontMatter.GetFormattedDurration()
+                        </dd>
+                        <dt class="col-5">
+                            Producer
+                        </dt>
+                        <dd class="col-7">
+                            @nasheed.FrontMatter.Producer.ToTitle()
+                        </dd>
+                    </dl>
                 </div>
 
                 @if (nasheed.FrontMatter.Contributors is not null && nasheed.FrontMatter.Contributors.Length > 0)
                 {
-                    <div class="card-header text-center" style="/*color: white; background-color: var(--mocha-base)*/">
+                    <div class="card-header text-center">
                         Contributors</div>
                     <div class="card-body">
                     <div class="container">
@@ -85,7 +86,8 @@
                                     <div class="col">
                                         <ul>
                                             <li>
-                                                <a href="@contributor.Link" target="_blank">@contributor.Name</a> (@contributor.Contribution)
+                                                <a href="@contributor.Link" target="_blank">@contributor.Name</a>
+                                                (@contributor.Contribution)
                                             </li>
                                         </ul>
                                     </div>
@@ -96,7 +98,7 @@
                 }
             </div>
         </aside>
-        
+
         <main class="my-5 pe-5 col-12 col-xl-9 col-lg-8 col-md-7">
             @((MarkupString)nasheed.HtmlContent)
         </main>
@@ -105,12 +107,13 @@
 
 
 @code {
-    [Parameter] public string? FileName { get; set; }
+    [Parameter]
+    public string? FileName { get; set; }
     Post<NasheedFrontMatter>? nasheed;
 
     protected override void OnInitialized()
     {
         if (string.IsNullOrWhiteSpace(FileName)) return;
-        nasheed = BlogService.BlogPosts.FirstOrDefault(x => x.FileNameNoExtension == FileName);
+        nasheed = BlogService.BlogPosts.FirstOrDefault(x => x.Url == FileName);
     }
 }
