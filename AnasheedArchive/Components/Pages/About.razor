@@ -1,6 +1,30 @@
 @* @attribute [Route(Models.PagesNames.About)] *@
 @page "/about"
-@layout ComingSoon
+@using System.Globalization
+@using Markdig
 
+<main class="my-5 mx-5 pe-5 ">
+    <div class="text-center mb-5">
+        <h1 class="site-name"> @WebsiteKeys.Name</h1>
+        <p class="lead">@WebsiteKeys.SiteDescription</p>
+    </div>
+    @((MarkupString)AboutPageContent)
+</main>
 
-<h1>this is the @Models.PagesNames.About page</h1>
+@code
+{
+    private string AboutPageContent;
+    protected override void OnInitialized()
+    {
+        
+        var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions()
+        .UseYamlFrontMatter()
+        .UseCitations()
+        .UseBootstrap()
+        .UseBootstrapExtended()
+        .Build();
+
+        var aboutPagePath = Path.Combine("Content","about.md");
+        AboutPageContent = Markdown.ToHtml(File.ReadAllText(aboutPagePath), pipeline);
+    }
+}
