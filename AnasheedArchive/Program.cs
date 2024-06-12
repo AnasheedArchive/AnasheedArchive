@@ -4,6 +4,7 @@ using BlazorStatic;
 using Markdig;
 using AnasheedArchive.Models;
 using AnasheedArchive.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.UseStaticWebAssets();
@@ -14,6 +15,7 @@ var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions()
         .UseCitations()
         .UseBootstrap()
         .UseBootstrapExtended()
+        .UseHeadingsFormatter()
         .Build();
 
 // Add services to the container.
@@ -21,16 +23,20 @@ builder.Services.AddRazorComponents();
 builder.Services.AddBlazorStaticService(opt =>
 {
     opt.MarkdownPipeline = pipeline;
-}
-);
+    opt.OutputFolderPath = "../output";
+});
 
 builder.Services.AddBlogService<NasheedFrontMatter>(opt =>
 {
     opt.BlogPageUrl = PagesNames.Anasheed;
-    opt.TagsPageUrl = "tags";
-    // opt.AfterBlogParsedAndAddedAction = () => ExtractTabs.Extract(opt.Posts);
-    opt.BeforeBlogParsedFunc = ExtractTabs.ModifyFiles;
-    opt.ContentPath = Path.Combine("Content", "Anasheed");
+    opt.ContentPath = Path.Combine("Content","Anasheed");
+    ExtractTabs.ModifyFiles(opt.ContentPath);
+});
+
+builder.Services.AddBlogService<NewsFrontMatter>(opt =>
+{
+    opt.BlogPageUrl = PagesNames.News;
+    opt.ContentPath = Path.Combine("Content","News");
 });
 
 var app = builder.Build();
@@ -51,6 +57,8 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>();
 
 app.UseBlog<NasheedFrontMatter>();
+app.UseBlog<NewsFrontMatter>();
+
 app.UseBlazorStaticGenerator(shutdownApp: !app.Environment.IsDevelopment());
 
 app.Run();
@@ -58,9 +66,6 @@ app.Run();
 public static class WebsiteKeys
 {
     public const string Name = "Anasheed Archive";
-    public const string BlogPostStorageAddress = "https://github.com/cabiste69/AnasheedArchive/tree/main/BlazorStaticWebsite/Content/Blog/";
-
-    public const string GitHubRepo = "https://github.com/cabiste69/AnasheedArchive";
-    public const string SiteDescription = "For the archival and translation of anasheed";
-
+    public const string GitHubRepo = "https://github.com/AnasheedArchive/Site";
+    public const string SiteDescription = "For the archival and translation of Anasheed";
 }
