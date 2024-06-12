@@ -1,0 +1,43 @@
+@using System.Globalization
+@using Markdig
+@using BlazorStatic
+@using BlazorStatic.Services
+@inject BlogService<NewsFrontMatter> NewsService
+
+    <h1 class="my-5">News List</h1>
+
+    @foreach (var post in posts)
+    {
+        <div class="card mb-3" style="width: 90%;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="@post.FrontMatter.Image" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">@post.FrontMatter.Title</h5>
+                        <p class="card-text">@post.FrontMatter.Lead</p>
+                        <p class="card-text"><small class="text-body-secondary">@post.FrontMatter.Published</small></p>
+                        <a href="@PostUrl(post.Url)" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+@code {
+    private List<Post<NewsFrontMatter>> posts = new();
+
+    private string PostUrl(string name)
+    {
+        @* string sanitizedName = name.IndexOf('/') > 0 ? name.Substring(name.IndexOf('/')+1): name; *@
+        return NewsService.Options.BlogPageUrl + "/" + name;
+    }
+
+    protected override void OnInitialized()
+    {
+        var unOrderedPosts = NewsService.BlogPosts;
+        posts = unOrderedPosts.Where(x => x.FrontMatter.IsDraft is false && x.FrontMatter.Title.Length > 0).OrderBy(x =>
+        x.FrontMatter.Published).ToList();
+    }
+}
