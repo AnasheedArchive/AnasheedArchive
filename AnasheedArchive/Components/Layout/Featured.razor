@@ -1,0 +1,74 @@
+@using System.Globalization
+@using BlazorStatic
+@using BlazorStatic.Services
+@typeparam T where T : class, IFrontMatter, new()
+
+<div class="container px-4 py-5" id="hanging-icons">
+    <h2 class="pb-2 border-bottom text-center">@Header</h2>
+    <div class="row justify-content-center">
+        @foreach (var post in Posts)
+        {
+            var item = ProcessPost(post);
+            <div class="card m-3" style="width: 15rem;">
+                <img src="@item.Image" class="img-fluid rounded-top" style="width: 600px;">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                    <a class="card-link stretched-link" href="@item.Url"></a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public List<Post<T>> Posts { get; set; }
+    [Parameter, EditorRequired]
+    public string Header { get; set; }
+    [Parameter, EditorRequired]
+    public BlogService<T> Service { get; set; }
+
+    private class PostInfo
+    {
+        public string Title { get; set; }
+        public string Image { get; set; }
+        public string Url { get; set; }
+    }
+
+    @* todo: move the image checking to a global function *@
+    private PostInfo ProcessPost(Post<T> post)
+    {
+        PostInfo item = new();
+
+        if (post is Post<NasheedFrontMatter> x)
+        {
+            item = new PostInfo()
+            {
+                Title = x.FrontMatter.Title,
+                Image = $"Content/Anasheed/media/{x.FrontMatter.Title.ToLower()}.jpg",
+                Url = $"{Service.Options.BlogPageUrl}/{post.Url}"
+            };
+
+            if (!File.Exists(item.Image))
+            {
+                item.Image = $"Content/Anasheed/media/{x.FrontMatter.Producer.ToLower()}.jpg";
+            }
+
+            if (!File.Exists(item.Image))
+            {
+                item.Image = "Content/Anasheed/media/unknown-producer.png";
+            }
+        }
+        else if (post is Post<NewsFrontMatter> y)
+        {
+            item = new PostInfo()
+            {
+                Title = y.FrontMatter.Title,
+                Image = $"Content/News/media/{y.FrontMatter.Title.ToLower()}.jpg",
+                Url = $"{Service.Options.BlogPageUrl}/{post.Url}"
+            };
+        }
+        
+        return item;
+    }
+}

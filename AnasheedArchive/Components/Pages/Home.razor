@@ -1,5 +1,33 @@
 @page "/"
+@using BlazorStatic
+@using BlazorStatic.Services
+@inject BlogService<NewsFrontMatter> NewsService
+@inject BlogService<NasheedFrontMatter> AnasheedService
 
 <Hero />
-<FeaturedAnasheed /> 
-@* <FeaturedNews />  *@
+<Featured Service="@AnasheedService" Posts="@GetFeaturedAnasheed()" Header="Featured Anasheed" />
+<Featured Service="@NewsService" Posts="@GetLatestNews()" Header="Latest News" />
+
+@code {
+    List<Post<NasheedFrontMatter>> GetFeaturedAnasheed()
+    {
+        if (AnasheedService.BlogPosts is null)
+        {
+            throw new NullReferenceException("no anasheed?");
+        }
+        var x = AnasheedService.BlogPosts.Where(x => x.FrontMatter.Featured == true && x.FrontMatter.IsDraft is false && x.FrontMatter.Title.Length > 0).OrderBy(x => x.FrontMatter.Title);
+        // only return 4
+        return x.Skip(Math.Max(0, x.Count() - 4)).ToList();
+    }
+
+    List<Post<NewsFrontMatter>> GetLatestNews()
+    {
+        if (NewsService.BlogPosts is null)
+        {
+            throw new NullReferenceException("no news?");
+        }
+        @* todo: order this *@
+        var x = NewsService.BlogPosts.OrderBy(x => x.FrontMatter.Published).Skip(Math.Max(0, NewsService.BlogPosts.Count() - 4)).ToList();
+        return x;
+    }
+}
