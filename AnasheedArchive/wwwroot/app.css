@@ -1,4 +1,10 @@
-@import url('fonts/Archive-Regular.otf');
+@font-face {
+    font-family: 'Archive';
+    font-style: normal;
+    font-weight: 100;
+    font-display: swap;
+    src: url('fonts/Archive-Regular.otf');
+}
 
 :root {
     /* bootstrap altered variables */
@@ -45,20 +51,23 @@
 
     font-family: "Roboto", sans-serif;
     font-weight: 400;
-    font-style:normal;
+    font-style: normal;
 
-    --bs-font-sans-serif: Roboto, system-ui,-apple-system,"Segoe UI","Helvetica Neue","Noto Sans","Liberation Sans",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    --bs-font-sans-serif: Roboto, system-ui;
 }
 
-html, body { min-height: 100vh;}
+html,
+body {
+    min-height: 100vh;
+}
 
-body > .footer {
-  position: sticky;
-  top: 100vh;
+body>.footer {
+    position: sticky;
+    top: 100vh;
 }
 
 .site-name {
-    font-family: "archive";
+    font-family: "Archive";
 }
 
 a {

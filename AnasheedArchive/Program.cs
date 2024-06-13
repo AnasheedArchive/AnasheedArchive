@@ -24,6 +24,7 @@ builder.Services.AddBlazorStaticService(opt =>
 {
     opt.MarkdownPipeline = pipeline;
     opt.OutputFolderPath = "../output";
+    opt.SuppressFileGeneration = true;
 });
 
 builder.Services.AddBlogService<NasheedFrontMatter>(opt =>
