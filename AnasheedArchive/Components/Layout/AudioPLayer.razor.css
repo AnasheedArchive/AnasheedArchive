@@ -1,28 +1,15 @@
-/* .audio-player {
-    width: 100%;
-} */
-
-.controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
-}
-
 .btn-icons {
     width: 2em;
     height: 2em;
     fill: currentColor;
 }
 
-.progress {
-    height: 10px;
-    background-color: #ccc;
-    margin-top: 10px;
+.volume-control {
+    padding-right: 1em;
 }
 
-#volume-control {
-    width: 100%;
+#volume-button {
+    padding-right: 0;
 }
 
 /*! ----- VOLUME BAR ----- */
@@ -34,10 +21,6 @@
     appearance: none;
     cursor: pointer;
 }
-
-/* #volume-bar:hover {
-    height: 0.4em;
-} */
 
 /** CHROME **/
 #volume-bar::-webkit-slider-thumb {
