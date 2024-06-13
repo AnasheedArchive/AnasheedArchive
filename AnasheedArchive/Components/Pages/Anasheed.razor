@@ -71,6 +71,9 @@
                         <dd class="col-7">
                             @nasheed.FrontMatter.Producer.ToTitle()
                         </dd>
+                        <dd>
+                            <AudioPLayer AudioSource="@("Content/Anasheed/media/"+nasheed.Url+".mp3")" />
+                        </dd>
                     </dl>
                 </div>
 
@@ -102,6 +105,9 @@
         <main class="my-5 pe-5 col-12 col-xl-9 col-lg-8 col-md-7">
             @((MarkupString)nasheed.HtmlContent)
         </main>
+    </div>
+    <div>
+        Download section:
     </div>
 </article>
 
