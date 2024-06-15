@@ -128,13 +128,13 @@ class ExtractTabs
     private static void AddBootstrapColumns(ref List<string> content, ref Dictionary<string, List<string>> lyrics, int startPos)
     {
         string container = "<div class='container'>";
-        string row = "<div class='text-center row row-cols-1 xx'>";
-        row = row.Replace("xx", $"row-cols-sm-{lyrics.Count}"); // shittiest code ever :D
-        string column = "<div class='col pb-5'>";
+        string row = $"<div class='text-center row row-cols-1 row-cols-sm-{lyrics.Count}'>";
+        string column = "<div class='col pb-5 xx'>";
 
         foreach (var translation in lyrics)
         {
-            string nestedRow = $"<div class='row row-cols-1'>" + column + "<p class='h3'>" + translation.Key + "</p>" + "</div>";
+            string arabicFont = translation.Key.ToLower().Equals("arabic") ? "lateef-light": "";
+            string nestedRow = "<div class='row row-cols-1'>" + column + "<p class='h3'>" + translation.Key + "</p>" + "</div>";
             foreach (var verse in translation.Value)
             {
                 var verse2 = verse.Trim();
@@ -146,7 +146,7 @@ class ExtractTabs
                 {
                     verse2 = verse2.Remove(0, 1);
                 }
-                nestedRow += column + verse2 + "</div>";
+                nestedRow += column.Replace("xx", arabicFont) + verse2 + "</div>";
             }
 
             row += nestedRow + "</div>";
@@ -154,7 +154,7 @@ class ExtractTabs
             if (translation.Key != lyrics.LastOrDefault().Key)
             {
                 // todo: make the ruler hidden on mobile view
-                // row += "<div class='vr' style='padding: 0px; color: #ffffff'></div>";
+                row += "<div class='vr' id='lyrics-ruler' style='padding: 0px; color: #ffffff; margin-top: 5rem;'></div>";
             }
         }
 
