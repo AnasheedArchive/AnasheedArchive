@@ -2,17 +2,9 @@ const audio = document.getElementById("audio");
 const playPauseButton = document.getElementById("play-pause-button");
 const progressBar = document.getElementById("progress-bar");
 const currentTimeDisplay = document.getElementById("current-time");
-const totalTimeDisplay = document.getElementById("total-time");
-
 
 //! audio progress bar
 let isPlaying = false;
-
-audio.addEventListener("loadeddata", () => {
-    if (audio.readyState >= 1) {
-        audio.currentTime = 0;
-    }
-});
 
 playPauseButton.addEventListener("click", () => {
     if (isPlaying) {
@@ -35,16 +27,13 @@ audio.addEventListener("timeupdate", () => {
 
     const currentMinutes = Math.floor(currentTime / 60);
     const currentSeconds = Math.floor(currentTime % 60);
-    const totalMinutes = Math.floor(duration / 60);
-    const totalSeconds = Math.floor(duration % 60);
 
     currentTimeDisplay.textContent = `${currentMinutes}:${currentSeconds < 10 ? '0' : ''}${currentSeconds}`;
-    totalTimeDisplay.textContent = `${totalMinutes}:${totalSeconds < 10 ? '0' : ''}${totalSeconds}`;
 
     const progress = (currentTime / duration) * 100;
 
     // const progress = (this.value - this.min) / (this.max - this.min) * 100;
-    progressBar.style.background = 'linear-gradient(to right, var(--mauve) 0%, var(--mauve) ' + progress + '%, var(--surface2) ' + progress + '%, var(--surface1) 100%)';
+    progressBar.style.background = 'linear-gradient(to right, var(--mauve) 0%, var(--mauve) ' + progress + '%, var(--surface1) ' + progress + '%, var(--surface1) 100%)';
     progressBar.value = progress;
 });
 
@@ -74,6 +63,14 @@ volumeControl.addEventListener("input", () => {
     SetVolumeIcon();
 });
 
+function SetVolumeBarColor(volume = -1) {
+    let volPercentage = lastVolume * 100;
+    if (volume >= 0) {
+        volPercentage = volume * 100;
+    }
+    volumeControl.style.background = 'linear-gradient(to right, var(--text) 0%, var(--text) ' + volPercentage + '%, var(--surface2) ' + volPercentage + '%, var(--surface1) 100%)';
+}
+
 function SetVolumeIcon(volume = -1) {
     let currentVolume = lastVolume;
     if (volume >= 0) {
@@ -94,17 +91,37 @@ function SetVolumeIcon(volume = -1) {
     }
 }
 
-function SetVolumeBarColor(volume = -1) {
-    let volPercentage = lastVolume * 100;
-    if (volume >= 0) {
-        volPercentage = volume * 100;
+
+//! whatever else
+audio.addEventListener("loadeddata", () => {
+    if (audio.readyState >= 1) {
+        SetAudioDuration();
     }
-    volumeControl.style.background = 'linear-gradient(to right, var(--text) 0%, var(--text) ' + volPercentage + '%, var(--surface2) ' + volPercentage + '%, var(--surface1) 100%)';
+});
+
+audio.addEventListener("ended", (event) => {
+    playPauseButton.querySelector('svg use').setAttribute("href", "#arrow-counterclockwise");
+    isPlaying = false;
+});
+
+function DisableDefaultAudioPlayer(){
+    audio.controls = false;
+    document.getElementById("audioPlayerControls").setAttribute("class", "");
+
+}
+
+function SetAudioDuration(){
+    const totalTimeDisplay = document.getElementById("total-time");
+    const duration = audio.duration;
+    const totalMinutes = Math.floor(duration / 60);
+    const totalSeconds = Math.floor(duration % 60);
+    totalTimeDisplay.textContent = `${totalMinutes}:${totalSeconds < 10 ? '0' : ''}${totalSeconds}`;
 }
 
 function InitAudioPlayer() {
     audio.volume = lastVolume;
     volumeControl.value = lastVolume;
+    DisableDefaultAudioPlayer();
     SetVolumeBarColor();
     SetVolumeIcon();
 }
