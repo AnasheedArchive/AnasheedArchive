@@ -154,7 +154,7 @@ class ExtractTabs
             if (translation.Key != lyrics.LastOrDefault().Key)
             {
                 // todo: make the ruler hidden on mobile view
-                row += "<div class='vr' id='lyrics-ruler' style='padding: 0px; color: #ffffff; margin-top: 5rem;'></div>";
+                row += "<div class='vr invisible' id='lyrics-ruler' style='padding: 0px; color: #ffffff; margin-top: 5rem;'></div>";
             }
         }
 
